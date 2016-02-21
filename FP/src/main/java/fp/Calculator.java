@@ -45,7 +45,24 @@ public class Calculator {
 	 * divisores que tiene.
 	 */
 	public static int[] divisors(int n) {
-		throw  new NotImplementedException();
+		int length=0;
+		int divisores[];
+			if(n>0 && n<=20){
+				for(int i=1; i<=n; i++)
+					if(n%i==0)
+						length++;
+				divisores = new int[length];
+				for(int i=n,j=0; i>0; i--){
+					if(n%i==0){
+						divisores[j]=i;
+						j++;
+					}
+				}
+				return divisores;
+			
+			}else
+				return divisores=null;
+			
 	}
 
 	/*
@@ -68,7 +85,18 @@ public class Calculator {
 	 * dd-MM-yyyy
 	 */
 	public static boolean isLeapYear(String fecha) {
-		throw  new NotImplementedException();
+		try{
+			int anyo = Integer.parseInt(fecha.substring(6));
+			if(anyo>0){	
+				if((anyo % 4 == 0) && (anyo % 100 != 0))
+					return true;
+				else if(anyo % 400 == 0)
+					return true;
+				else
+					return false;
+			}
+		}catch(IndexOutOfBoundsException e){}
+		return false;
 	}
 
 	/*
