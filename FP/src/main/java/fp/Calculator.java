@@ -97,7 +97,35 @@ public class Calculator {
 	 * mostrar: cincuenta y seis
 	 */
 	public static String speakToMe(int n) {
-		throw  new NotImplementedException();
+		  String[] decenas = {"Cero","Diez","Veinte","Treinta","Cuarenta","Cincuenta",
+				  "Sesenta","Setenta","Ochenta","Noventa"};
+
+		  String[] unidades = {"","uno","dos","tres","cuatro","cinco","seis","siete",
+				  "ocho","nueve","Diez","Once","Doce","Trece","Catorce","Quince","Dieciseis",
+				  "Diecisiete","Dieciocho","Diecinueve"};
+	  
+		  String numescrito="";
+		  
+		  if(n==0){
+			  numescrito="";
+			  numescrito=decenas[0];
+			  return numescrito;
+		  }
+		  else if(n<20){
+			  numescrito="";
+			  numescrito=unidades[n];
+			  return numescrito;
+		  }
+		  else if((n%10)==0){
+			  numescrito="";
+			  numescrito=decenas[n/10];
+			  return numescrito;
+		  }
+		  else{
+			  numescrito="";
+			  numescrito=decenas[n/10]+" y "+unidades[n%10];
+			  return numescrito;
+		  }
 	}
 
 	/*
@@ -123,6 +151,41 @@ public class Calculator {
 	 * este metodo devuelve cierto si la fecha es válida
 	 */
 	public static boolean isValidDate(String date) {
-		throw  new NotImplementedException();
+		int dia, mes, anyo;		
+		try{
+			dia=Integer.parseInt(date.substring(0, 2));
+			mes=Integer.parseInt(date.substring(3,5));
+			anyo=Integer.parseInt(date.substring(6));
+		}catch (NumberFormatException e) {
+			return false;
+		}catch(IndexOutOfBoundsException i){
+			return false;
+		}
+		if(anyo>0){
+			switch(mes){
+			case 1:
+			case 3:
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:				
+				if(dia<=31 && dia>0)
+					return true;
+					break;
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				if(dia<=30 && dia>0)
+					return true;
+					break;
+			case 2:
+				if(dia<=28 && dia>0)
+					return true;
+					break;
+			}
+		}		
+		return false;
 	}
 }
