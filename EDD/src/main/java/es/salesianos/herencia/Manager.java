@@ -3,12 +3,6 @@ package es.salesianos.herencia;
 public class Manager {
 
 	public Manager() {
-<<<<<<< HEAD
-		Grandpa grandpa=new Grandpa();
-//		grandpa.
-		// TODO Auto-generated constructor stub
-	}
-=======
 
 
 	}
@@ -17,6 +11,5 @@ public class Manager {
 		 granpa.toString();
 	 }
 
->>>>>>> upstream/master
 
 }
