@@ -2,6 +2,8 @@ package fp;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,12 +43,12 @@ public class Calculator {
 		int n=number;
 		if(number>0 && step>0){
 				length=(number-1)/step;
-			int pasos[] = new int[length];
-			for(int i=0; i<pasos.length; i++){
+			int leaps[] = new int[length];
+			for(int i=0; i<leaps.length; i++){
 				number-=step;
-				pasos[i]=number;
+				leaps[i]=number;
 			}
-			return pasos;
+			return leaps;
 		}else
 			return new int[0];
 	}
@@ -84,23 +86,39 @@ public class Calculator {
 		String tildes = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ";
 	    String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcC";
 	    String reverse="";
-		try{
-	    	if(cadena!=null){
-				for(int i=0; i<cadena.length(); i++)
-					if(Character.isLetter(cadena.charAt(i)))
-						formateada+=cadena.charAt(i);
-				formateada=formateada.toLowerCase();
-				for(int i=0; i<tildes.length(); i++)
-					formateada=formateada.replace(tildes.charAt(i), ascii.charAt(i));
-				for(int i=formateada.length()-1; i>=0; i--)
-					reverse+=formateada.charAt(i);
-				if(formateada.equals(reverse))
-					return true;
-				else
-					return false;
-			}
-		}catch(IndexOutOfBoundsException e){}
-	    	return false;
+    	if(cadena!=null){
+			formateada = formatString(cadena, formateada);
+			formateada=formateada.toLowerCase();
+			formateada = replaceTildes(formateada, tildes, ascii);
+			reverse = reverseString(formateada, reverse);
+			if(formateada.equals(reverse))
+				return true;
+			else
+				return false;
+		}else 
+			return false;
+	}
+
+
+	private static String reverseString(String formateada, String reverse) {
+		for(int i=formateada.length()-1; i>=0; i--)
+			reverse+=formateada.charAt(i);
+		return reverse;
+	}
+
+
+	private static String replaceTildes(String formateada, String tildes, String ascii) {
+		for(int i=0; i<tildes.length(); i++)
+			formateada=formateada.replace(tildes.charAt(i), ascii.charAt(i));
+		return formateada;
+	}
+
+
+	private static String formatString(String cadena, String formateada) {
+		for(int i=0; i<cadena.length(); i++)
+			if(Character.isLetter(cadena.charAt(i)))
+				formateada+=cadena.charAt(i);
+		return formateada;
 	}
 
 	/*
@@ -146,13 +164,16 @@ public class Calculator {
 	public static boolean isLeapYear(String fecha) {
 		try{
 			int anyo = Integer.parseInt(fecha.substring(6));
+			boolean isboolean = false;
 			if(anyo>0){	
-				if((anyo % 4 == 0) && (anyo % 100 != 0))
-					return true;
-				else if(anyo % 400 == 0)
-					return true;
-				else
-					return false;
+				if((anyo % 4 == 0) && (anyo % 100 != 0)){
+					isboolean = true;
+					return isboolean;
+				}
+				else if(anyo % 400 == 0){
+					isboolean = true;
+					return isboolean;
+				}
 			}
 		}catch(IndexOutOfBoundsException e){}
 		return false;
@@ -162,41 +183,13 @@ public class Calculator {
 	 * este metodo devuelve cierto si la fecha es válida
 	 */
 	public static boolean isValidDate(String date) {
-		int dia, mes, anyo;		
-		try{
-			dia=Integer.parseInt(date.substring(0, 2));
-			mes=Integer.parseInt(date.substring(3,5));
-			anyo=Integer.parseInt(date.substring(6));
-		}catch (NumberFormatException e) {
-			return false;
-		}catch(IndexOutOfBoundsException i){
-			return false;
-		}
-		if(anyo>0){
-			switch(mes){
-			case 1:
-			case 3:
-			case 5:
-			case 7:
-			case 8:
-			case 10:
-			case 12:				
-				if(dia<=31 && dia>0)
-					return true;
-					break;
-			case 4:
-			case 6:
-			case 9:
-			case 11:
-				if(dia<=30 && dia>0)
-					return true;
-					break;
-			case 2:
-				if(dia<=28 && dia>0)
-					return true;
-					break;
-			}
-		}		
-		return false;
-	}
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	    dateFormat.setLenient(false);
+	    try {
+	      dateFormat.parse(date.trim());
+	    } catch (ParseException pe) {
+	      return false;
+	    }
+	    return true;
+	  }
 }
