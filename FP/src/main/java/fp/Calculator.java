@@ -42,15 +42,16 @@ public class Calculator {
 		int length=0;
 		int n=number;
 		if(number>0 && step>0){
-				length=(number-1)/step;
+			length=(number-1)/step;
 			int leaps[] = new int[length];
 			for(int i=0; i<leaps.length; i++){
 				number-=step;
 				leaps[i]=number;
 			}
 			return leaps;
-		}else
+		}else{
 			return new int[0];
+		}
 	}
 
 	/*
@@ -58,24 +59,20 @@ public class Calculator {
 	 * divisores que tiene.
 	 */
 	public static int[] divisors(int n) {
-		int length=0;
-		int divisores[];
-			if(n>0 && n<=20){
-				for(int i=1; i<=n; i++)
-					if(n%i==0)
-						length++;
-				divisores = new int[length];
-				for(int i=n,j=0; i>0; i--){
-					if(n%i==0){
-						divisores[j]=i;
-						j++;
-					}
+		if(n < 1)
+			return null;
+		int length = 0;
+		for(int i=1; i<=n; i++)
+			if(n%i==0)
+				length++;
+		int divisores[] = new int[length];
+			for(int i=n,j=0; i>0; i--){
+				if(n%i==0){
+					divisores[j]=i;
+					j++;
 				}
-				return divisores;
-			
-			}else
-				return divisores=null;
-			
+			}
+		return divisores;			
 	}
 
 	/*
@@ -95,8 +92,9 @@ public class Calculator {
 				return true;
 			else
 				return false;
-		}else 
+		}else{
 			return false;
+		}
 	}
 
 
@@ -162,20 +160,20 @@ public class Calculator {
 	 * dd-MM-yyyy
 	 */
 	public static boolean isLeapYear(String fecha) {
-		try{
-			int anyo = Integer.parseInt(fecha.substring(6));
-			boolean isboolean = false;
-			if(anyo>0){	
-				if((anyo % 4 == 0) && (anyo % 100 != 0)){
-					isboolean = true;
-					return isboolean;
-				}
-				else if(anyo % 400 == 0){
-					isboolean = true;
-					return isboolean;
-				}
+		if(!isValidDate(fecha))
+			return false;
+		int anyo = Integer.parseInt(fecha.substring(6));
+		boolean isboolean = false;
+		if(anyo>0){	
+			if((anyo % 4 == 0) && (anyo % 100 != 0)){
+				isboolean = true;
+				return isboolean;
 			}
-		}catch(IndexOutOfBoundsException e){}
+			else if(anyo % 400 == 0){
+				isboolean = true;
+				return isboolean;
+			}
+		}
 		return false;
 	}
 
